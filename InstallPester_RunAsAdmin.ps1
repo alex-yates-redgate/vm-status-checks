@@ -1,0 +1,1 @@
+Save-Module -Name Pester -Path "C:\Program Files\WindowsPowerShell\Modules"
