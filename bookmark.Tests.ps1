@@ -2,8 +2,6 @@ BeforeAll {
     $username = "redgate"
     $bookmarkData = Get-ChildItem -Path "C:\Users\$username\AppData\Local\Google\Chrome\User Data\Default\" -Filter *. | Where-Object {$_.Name -match 'Bookmark'} | Get-Content | ConvertFrom-Json
 
-
-
     # Recursive function that gets all the chrome bookmarks in all folders
     Function Get-Urls {
         param (
@@ -27,7 +25,7 @@ BeforeAll {
     $bookmarks += Get-Urls $bookmarkData.roots.bookmark_bar.children
 }
 
-Describe 'The following boomarks should run on startup' {
+Describe 'The following boomarks should exist in Chrome' {
     It 'SQL Data Catalog' {
         'http://win2016:15156' | Should -BeIn $bookmarks
     }
