@@ -27,6 +27,6 @@ BeforeAll {
 
 Describe 'The following boomarks should exist in Chrome' {
     It 'SQL Data Catalog' {
-        'http://win2016:15156' | Should -BeIn $bookmarks
+        'http://win2016:15156/sqlserverinstances' | Should -BeIn $bookmarks
     }
 }
