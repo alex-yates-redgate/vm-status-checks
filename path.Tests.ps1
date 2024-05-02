@@ -1,4 +1,4 @@
-eforeAll {
+BeforeAll {
     function Test-CommandRunsSuccessfully {
         param (
             [Parameter(Position=0,mandatory=$true)][string]$command 
