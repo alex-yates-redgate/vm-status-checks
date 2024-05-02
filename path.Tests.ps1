@@ -4,7 +4,8 @@ BeforeAll {
             [Parameter(Position=0,mandatory=$true)][string]$command 
         )
         try {
-            $commandOutput = & $command
+            $errorActionPreference = 'SilentlyContinue'
+            $commandOutput = & $command | out-null
             $flywayFound = $true
         }
         catch {
