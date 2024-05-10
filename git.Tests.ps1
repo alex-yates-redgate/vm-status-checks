@@ -1,6 +1,5 @@
 BeforeAll {
     $gitDirectory = "C:\git"
-    $repoList = "vm-status-checks", "tdm-demos", "forkable-widget"
 
     function Get-LatestGitHubCommitHash {
         param (
