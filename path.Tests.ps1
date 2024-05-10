@@ -20,7 +20,7 @@ Describe 'CLI tests' {
     $cliList = @(
         @{cli = "flyway"},
         @{cli = "flyway-dev"},
-        @{cli = "rgcompare"},
+        @{cli = "rgcompare.cli"},
         @{cli = "sqlcompare"},
         @{cli = "sqldatacompare"},
         @{cli = "sqldatagenerator"},
