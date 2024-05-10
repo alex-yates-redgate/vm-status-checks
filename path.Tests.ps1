@@ -17,7 +17,7 @@ BeforeAll {
 
 Describe 'The following tools should be accessible via %PATH% from the command line' {
     It "<_> is in %PATH%" -ForEach (
-        'flyway', 'flyway-dev', 'rgcompare', 
+        'flyway', 'flyway-dev', 'rgcompare.cli', 
         'sqlcompare', 'sqldatacompare', 'sqldatagenerator', 
         'rgclone', 'subsetter', 'anonymize', 
         'datagenerator', 'DataMaskerCmdLine') {
