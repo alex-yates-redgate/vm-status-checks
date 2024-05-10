@@ -28,7 +28,7 @@ Describe 'CLI tests' {
         @{cli = "subsetter"},
         @{cli = "anonymize"},
         @{cli = "datagenerator"},
-        @{cli = "datamasker"}
+        @{cli = "DataMaskerCmdLine"}
     )
     
     It "<cli> should be accessible from %PATH%" -TestCases $cliList {
