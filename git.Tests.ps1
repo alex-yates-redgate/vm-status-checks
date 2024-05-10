@@ -30,15 +30,9 @@ Describe "Important GitHub Repositories" {
         }
 
         It "should be the latest version" {
-            $gitDirectoryLatestVersion = $false
             $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository "alex-yates-redgate/$_" -Branch 'main' #gets latest github commit hash
-            Write-Output $latestCommitHash
             $currentCommitHash = (git -C "$gitDirectory\$_" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
-            Write-Output $currentCommitHash
-            If ($latestCommitHash -eq $currentCommitHash){
-                $gitDirectoryLatestVersion = $true
-            }
-            $gitDirectoryLatestVersion | Should -BeTrue
+            $latestCommitHash | Should -BeExactly $currentCommitHash
         }
     }
 }
