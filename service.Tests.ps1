@@ -13,11 +13,11 @@ Describe 'The following services should be Automatic' {
 }
 
 Describe 'The following services should be Manual' {
-    It 'SQL Monitor Base Monitor' {
-        'SQL Monitor Base Monitor' | Should -BeIn $manualServices.DisplayName
+    It 'Redgate Monitor Base Monitor' {
+        'Redgate Monitor Base Monitor' | Should -BeIn $manualServices.DisplayName
     }
-    It 'SQL Monitor Web Service' {
-        'SQL Monitor Web Service' | Should -BeIn $manualServices.DisplayName
+    It 'Redgate Monitor Web Service' {
+        'Redgate Monitor Web Service' | Should -BeIn $manualServices.DisplayName
     }
 }
 

@@ -15,24 +15,12 @@ BeforeAll {
     }
 }
 
-
-Describe 'CLI tests' {
-    $cliList = @(
-        @{cli = "flyway"},
-        @{cli = "flyway-dev"},
-        @{cli = "rgcompare"},
-        @{cli = "sqlcompare"},
-        @{cli = "sqldatacompare"},
-        @{cli = "sqldatagenerator"},
-        @{cli = "rgclone"},
-        @{cli = "subsetter"},
-        @{cli = "anonymize"},
-        @{cli = "datagenerator"},
-        @{cli = "DataMaskerCmdLine"}
-    )
-    
-    It "<cli> should be accessible from %PATH%" -TestCases $cliList {
-        param($cli)
-        Test-CommandRunsSuccessfully -command $cli | Should -BeTrue
-    }
+Describe 'The following tools should be accessible via %PATH% from the command line' {
+    It "<_> is in %PATH%" -ForEach (
+        'flyway', 'flyway-dev', 'rgcompare.cli', 
+        'sqlcompare', 'sqldatacompare', 'sqldatagenerator', 
+        'rgclone', 'subsetter', 'anonymize', 
+        'datagenerator', 'DataMaskerCmdLine') {
+        
+        Test-CommandRunsSuccessfully -command $_ | Should -BeTrue}
 }
