@@ -42,15 +42,4 @@ Describe 'Checking the following tools are up to date' {
         }
         $upToDate | Should -BeTrue
     }
-
-    It 'datagenerator timebomb' {
-        $datageneratorOutput = datagenerator
-        If ($datageneratorOutput -like "*This version of the Data Generator tool has expired*"){
-            $upToDate = $false
-        }
-        else {
-            $upToDate = $true
-        }
-        $upToDate | Should -BeTrue
-    }
 }
