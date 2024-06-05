@@ -1,7 +1,7 @@
 Describe 'Checking the following tools are up to date' {
     It 'Flyway' {
         $flywayVersion = flyway version
-        If ($flywayVersion -like "*WARNING: This version of Flyway is out of date.*"){
+        If (($flywayVersion -like "*WARNING: This version of Flyway is out of date.*") -or ($flywayVersion -like "*A more recent version of Flyway is available.*")){
             $upToDate = $false
         }
         else {
