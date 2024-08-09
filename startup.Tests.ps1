@@ -22,14 +22,14 @@ Describe 'Scheduled tasks should exist for the following scripts' {
 }
 
 Describe 'Scheduled tasks should be enabled' {
-    It 'GitPullAll' {
-        (Get-ScheduledTask  -TaskName "GitPullAll").Triggers[0].Enabled | Should -BeLike "True"
+    It 'Run weekly jobs' {
+        (Get-ScheduledTask  -TaskName "Run weekly jobs").Triggers[0].Enabled | Should -BeLike "True"
     }
     It 'StartRedgateClient' {
         (Get-ScheduledTask  -TaskName "StartRedgateClient").Triggers[0].Enabled | Should -BeLike "True"
     }
-    It 'UpdateRgClone' {
-        (Get-ScheduledTask  -TaskName "UpdateRgClone").Triggers[0].Enabled | Should -BeLike "True"
+    It 'LogonScripts' {
+        (Get-ScheduledTask  -TaskName "LogonScripts").Triggers[0].Enabled | Should -BeLike "True"
     }
 }
 
