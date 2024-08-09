@@ -10,14 +10,14 @@ Describe 'The following apps should run on startup' {
 }
 
 Describe 'Scheduled tasks should exist for the following scripts' {
-    It 'GitPullAll' {
-        'GitPullAll' | Should -BeIn $startupTasks.TaskName
+    It 'Run weekly jobs' {
+        'Run weekly jobs' | Should -BeIn $startupTasks.TaskName
     }
     It 'StartRedgateClient' {
         'StartRedgateClient' | Should -BeIn $startupTasks.TaskName
     }
-    It 'UpdateRgClone' {
-        'UpdateRgClone' | Should -BeIn $startupTasks.TaskName
+    It 'LogonScripts' {
+        'LogonScripts' | Should -BeIn $startupTasks.TaskName
     }
 }
 
