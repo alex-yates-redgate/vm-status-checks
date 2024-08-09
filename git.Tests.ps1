@@ -29,7 +29,11 @@ Describe "Important GitHub Repositories" {
         }
 
         It "should be the latest version" {
-            $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository "alex-yates-redgate/$_" -Branch 'main' #gets latest github commit hash
+            $remote = git -C C:\git\vm-status-checks remote get-url origin
+            $githubAccount = ($remote -Split ('/'))[3]       
+            $remoteRepoName = ((($remote -Split ('/'))[4]) -Split ('\.'))[0]
+            
+            $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository "$githubAccount/$remoteRepoName" -Branch 'main' #gets latest github commit hash
             $currentCommitHash = (git -C "$gitDirectory\$_" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
             $latestCommitHash | Should -BeExactly $currentCommitHash
         }
