@@ -22,7 +22,7 @@ Describe 'Checking the following directory exists' {
 }
 
 Describe "Important GitHub Repositories" {
-    Context "<_>" -ForEach 'vm-status-checks','tdm-demos','forkable-widget','vm-startup-scripts' {
+    Context "<_>" -ForEach 'vm-status-checks','tdm-demos','forkable-widget','vm-startup-scripts','TDM-AutoMasklet','InstallTdmClisOnWindows' {
         It 'should be cloned to C:\git' {
             $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
             Test-Path -Path $repoPath | Should -BeTrue
