@@ -42,7 +42,7 @@ Describe "Important GitHub Repositories" {
             $remote = git -C C:\git\$_ remote get-url origin
             $gist = $remote -like "https://gist.github.com/*"
             if ($gist){
-                $gitHubRepo = ($remote -Split ('/'))[3]   
+                $gitHubRepo = (($remote -Split ('/'))[3]) -Split ('\.'))[0]   
             }
             else {
                 $githubAccount = ($remote -Split ('/'))[3]       
