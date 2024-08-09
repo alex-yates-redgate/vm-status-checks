@@ -9,12 +9,14 @@ BeforeAll {
         )
         if ($Gist){
             $url = "https://api.github.com/gists/$GitHubRepository"
+            Write-Warning "url: $url"
             $response = Invoke-RestMethod -Uri $url
             $lastSha = $response.history.version[0] 
             return $lastSha
         }
         else {
             $url = "https://api.github.com/repos/$GitHubRepository/commits/$Branch"
+            Write-Warning "url: $url"
             $response = Invoke-RestMethod -Uri $url
             return $response.sha
         }
