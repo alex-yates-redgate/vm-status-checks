@@ -29,7 +29,7 @@ Describe "Important GitHub Repositories" {
         }
 
         It "should be the latest version" {
-            $remote = git -C C:\git\vm-status-checks remote get-url origin
+            $remote = git -C C:\git\$_ remote get-url origin
             $githubAccount = ($remote -Split ('/'))[3]       
             $remoteRepoName = ((($remote -Split ('/'))[4]) -Split ('\.'))[0]
             
