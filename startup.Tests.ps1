@@ -3,13 +3,13 @@ BeforeAll {
     $startupTasks = Get-ScheduledTask
 }
 
-Describe 'The following apps should run on startup' {
+Describe -Tag 'global' 'The following apps should run on startup' {
     It 'ZoomIt' {
         'ZoomIt' | Should -BeIn $startupApps.Name
     }
 }
 
-Describe 'Scheduled tasks should exist for the following scripts' {
+Describe -Tag 'global' 'Scheduled tasks should exist for the following scripts' {
     It 'Run weekly jobs' {
         'Run weekly jobs' | Should -BeIn $startupTasks.TaskName
     }
@@ -21,7 +21,7 @@ Describe 'Scheduled tasks should exist for the following scripts' {
     }
 }
 
-Describe 'Scheduled tasks should be enabled' {
+Describe -Tag 'global' 'Scheduled tasks should be enabled' {
     It 'Run weekly jobs' {
         (Get-ScheduledTask  -TaskName "Run weekly jobs").Triggers[0].Enabled | Should -BeLike "True"
     }

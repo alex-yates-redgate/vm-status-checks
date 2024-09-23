@@ -1,1 +1,1 @@
-Invoke-Pester -Output Detailed $PSScriptRoot
+Invoke-Pester -Tag $Env:VM_CONFIG, 'global' -Output Detailed $PSScriptRoot

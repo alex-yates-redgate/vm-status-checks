@@ -6,13 +6,13 @@ BeforeAll {
 }
 
 
-Describe 'The following services should be Automatic' {
+Describe -Tag 'global' 'The following services should be Automatic' {
     It 'SQL Server (MSSQLSERVER)' {
         'SQL Server (MSSQLSERVER)' | Should -BeIn $automaticServices.DisplayName
     }
 }
 
-Describe 'The following services should be Manual' {
+Describe -Tag 'global' 'The following services should be Manual' {
     It 'Redgate Monitor Base Monitor' {
         'Redgate Monitor Base Monitor' | Should -BeIn $manualServices.DisplayName
     }
@@ -21,7 +21,7 @@ Describe 'The following services should be Manual' {
     }
 }
 
-Describe 'The following services should be Disabled' {
+Describe -Tag 'global' 'The following services should be Disabled' {
     It 'SQL Server Browser' {
         'SQL Server Browser' | Should -BeIn $disabledServices.DisplayName
     }

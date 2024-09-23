@@ -22,14 +22,14 @@ BeforeAll {
     }
 }
 
-Describe 'Checking the following directory exists' {
+Describe -Tag 'global' 'Checking the following directory exists' {
     It 'C:\git' {
         $gitDirectoryExists = Test-Path -Path $gitDirectory
         $gitDirectoryExists | Should -BeTrue
     }
 }
 
-Describe "Important GitHub Repositories" {
+Describe -Tag 'global' "Important GitHub Repositories" {
     Context "<_>" -ForEach 'vm-status-checks','tdm-demos','forkable-widget','vm-startup-scripts','TDM-AutoMasklet','InstallTdmClisOnWindows' {
         It 'should be cloned to C:\git' {
             $repoPath = Join-Path -Path $gitDirectory -ChildPath $_

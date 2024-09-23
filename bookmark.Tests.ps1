@@ -25,7 +25,7 @@ BeforeAll {
     $bookmarks += Get-Urls $bookmarkData.roots.bookmark_bar.children
 }
 
-Describe 'The following boomarks should exist in Chrome' {
+Describe -Tag 'global' 'The following boomarks should exist in Chrome' {
     It 'SQL Data Catalog' {
         'http://win2016:15156/sqlserverinstances' | Should -BeIn $bookmarks
     }

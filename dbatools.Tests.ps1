@@ -2,7 +2,7 @@ BeforeAll {
     import-module dbatools
 }
 
-Describe 'Testing dbatools config' {
+Describe -Tag 'global' 'Testing dbatools config' {
     It 'dbatools should trust the SQL Server certificate' {
         (Get-DbatoolsConfig -FullName sql.connection.trustcert).Value | Should -BeTrue
     }
