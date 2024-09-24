@@ -42,7 +42,7 @@ BeforeAll {
 }
 
 
-Describe -Tag 'SalesDemo' 'The following bookmarks should exist in Chrome on the CustomerVM' {
+Describe -Tag 'Global' 'The following bookmarks should exist in Chrome on the CustomerVM' {
     foreach ($expectedUrl in $expectedSalesDemoUrls) {
         It "Bookmark for $expectedUrl should exist" {
             $expectedUrl | Should -BeIn $bookmarks
