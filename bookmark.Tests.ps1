@@ -23,10 +23,37 @@ BeforeAll {
 
     $bookmarks = @()
     $bookmarks += Get-Urls $bookmarkData.roots.bookmark_bar.children
+
+    $expectedSalesDemoUrls = @(
+        'http://win2016:15156/sqlserverinstances'
+    )
+
+    $expectedCustomerVMUrls = @(
+        'http://redgate-demo/DefaultCollection/Tundra', 
+        'http://redgate-demo/DefaultCollection/_git/Bolt',
+        'http://redgate-demo/DefaultCollection/_git/Pagila',
+        'http://redgate-demo/', 
+        'http://redgate-demo:14145/', 
+        'https://documentation.red-gate.com/clone/files/119669277/119669278/1/1545065894288/SQLCloneArchitectureImage2.jpg', 
+        'https://monitor.red-gate.com/GlobalDashboard', 
+        'http://redgate-demo:15156/sqlserverinstances', 
+        'https://download.red-gate.com/'
+    )
 }
 
-Describe -Tag 'global' 'The following boomarks should exist in Chrome' {
-    It 'SQL Data Catalog' {
-        'http://win2016:15156/sqlserverinstances' | Should -BeIn $bookmarks
+
+Describe -Tag 'SalesDemo' 'The following bookmarks should exist in Chrome on the CustomerVM' {
+    foreach ($expectedUrl in $expectedSalesDemoUrls) {
+        It "Bookmark for $expectedUrl should exist" {
+            $expectedUrl | Should -BeIn $bookmarks
+        }
+    }
+}
+
+Describe -Tag 'CustomerVM' 'The following bookmarks should exist in Chrome on the CustomerVM' {
+    foreach ($expectedUrl in $expectedCustomerVMUrls) {
+        It "Bookmark for $expectedUrl should exist" {
+            $expectedUrl | Should -BeIn $bookmarks
+        }
     }
 }
