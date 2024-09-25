@@ -1,5 +1,5 @@
 BeforeAll {
-    $allServices = Get-Service
+    $allServices = Get-Service -ErrorAction SilentlyContinue # For some reason, this line errors on the Customer VM, but only when execting from Pester, even though it actually works? Suppressing the error.
     $automaticServices = $allServices | Where-Object {$_.StartType -like 'Automatic'}
     $manualServices = $allServices | Where-Object {$_.StartType -like 'Manual'}
     $disabledServices = $allServices | Where-Object {$_.StartType -like 'Disabled'}
