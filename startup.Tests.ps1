@@ -9,27 +9,33 @@ Describe -Tag 'global' 'The following apps should run on startup' {
     }
 }
 
-Describe -Tag 'global' 'Scheduled tasks should exist for the following scripts' {
-    It 'Run weekly jobs' {
-        'Run weekly jobs' | Should -BeIn $startupTasks.TaskName
+Describe -Tag 'global' 'Scheduled tasks should exist Globally' {
+    It 'Run weekend-scripts from vm-startup-scripts' {
+        'Run weekend-scripts from vm-startup-scripts' | Should -BeIn $startupTasks.TaskName
     }
-    It 'StartRedgateClient' {
-        'StartRedgateClient' | Should -BeIn $startupTasks.TaskName
-    }
-    It 'LogonScripts' {
-        'LogonScripts' | Should -BeIn $startupTasks.TaskName
+    It 'Run logon-scripts from vm-startup-scripts' {
+        'Run logon-scripts from vm-startup-scripts' | Should -BeIn $startupTasks.TaskName
     }
 }
 
-Describe -Tag 'global' 'Scheduled tasks should be enabled' {
-    It 'Run weekly jobs' {
-        (Get-ScheduledTask  -TaskName "Run weekly jobs").Triggers[0].Enabled | Should -BeLike "True"
+Describe -Tag 'global' 'Scheduled tasks should be enabled Globally' {
+    It 'Run weekend-scripts from vm-startup-scripts' {
+        (Get-ScheduledTask  -TaskName "Run weekend-scripts from vm-startup-scripts").Triggers[0].Enabled | Should -BeLike "True"
     }
+    It 'Run logon-scripts from vm-startup-scripts' {
+        (Get-ScheduledTask  -TaskName "Run logon-scripts from vm-startup-scripts").Triggers[0].Enabled | Should -BeLike "True"
+    }
+}
+
+Describe -Tag 'SalesDemo' 'Scheduled tasks should exist on the SalesDemo VM' {
+    It 'StartRedgateClient' {
+        'StartRedgateClient' | Should -BeIn $startupTasks.TaskName
+    }
+}
+
+Describe -Tag 'SalesDemo' 'Scheduled tasks should be enabled on the SalesDemo VM' {
     It 'StartRedgateClient' {
         (Get-ScheduledTask  -TaskName "StartRedgateClient").Triggers[0].Enabled | Should -BeLike "True"
-    }
-    It 'LogonScripts' {
-        (Get-ScheduledTask  -TaskName "LogonScripts").Triggers[0].Enabled | Should -BeLike "True"
     }
 }
 
