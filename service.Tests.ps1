@@ -79,7 +79,7 @@ Describe -Tag 'SalesDemo' 'Validating Startup Type for various Windows Services 
 Describe -Tag 'CustomerVM' 'Validating Startup Type for various Windows Services on the Customer VM' {
     Context 'Service <expectedService> ' -ForEach @(
         @{ expectedService = 'SQL Server (SQLEXPRESS)' }
-        @{ expectedService = 'Azure Pipeline Agent (redgate-demo.Default.REDGATE-DEMO)' }
+        @{ expectedService = 'Azure Pipelines Agent (redgate-demo.Default.REDGATE-DEMO)' }
     ) {
         It 'should have Startup Type set to AUTOMATIC'  {
             $expectedService | Should -BeIn $automaticServices.DisplayName
