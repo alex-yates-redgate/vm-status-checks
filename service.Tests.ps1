@@ -9,9 +9,9 @@ Describe -Tag 'Global' 'Validating Startup Type for various Windows Services, re
     Context 'Service <expectedService> ' -ForEach @(
         @{ expectedService = 'SQL Clone Server' }
         @{ expectedService = 'SQL Clone Agent 5.4.21.6541' }
-        @{ expectedService = 'Redgate Data Catalog Service' }
+        @{ expectedService = 'Redgate SQL Data Catalog Service' }
         @{ expectedService = 'Azure DevOps Server Background Job Agent' }
-        @{ expectedService = 'Azure Pipeline Agent (redgate-demo.Default.REDGATE-DEMO)' }
+
         @{ expectedService = 'Redgate Client' }
     ) {
         It 'should have Startup Type set to AUTOMATIC'  {
@@ -46,8 +46,8 @@ Describe -Tag 'SalesDemo' 'Validating Startup Type for various Windows Services 
         @{ expectedService = 'DLM Dashboard Monitoring Service' }
         @{ expectedService = 'DLM Dashboard Storage Service' }
         @{ expectedService = 'DLM Dashboard Web Server' }
-        @{ expectedService = 'Octopus Deploy' }
-        @{ expectedService = 'Octopus Deploy Tentacle' }
+        @{ expectedService = 'OctopusDeploy' }
+        @{ expectedService = 'OctopusDeploy Tentacle' }
         @{ expectedService = 'OracleServiceORCL' }
         @{ expectedService = 'OracleServiceDEVADO' }
         @{ expectedService = 'OracleServiceDEVADOSHADOW' }
@@ -79,6 +79,7 @@ Describe -Tag 'SalesDemo' 'Validating Startup Type for various Windows Services 
 Describe -Tag 'CustomerVM' 'Validating Startup Type for various Windows Services on the Customer VM' {
     Context 'Service <expectedService> ' -ForEach @(
         @{ expectedService = 'SQL Server (SQLEXPRESS)' }
+        @{ expectedService = 'Azure Pipeline Agent (redgate-demo.Default.REDGATE-DEMO)' }
     ) {
         It 'should have Startup Type set to AUTOMATIC'  {
             $expectedService | Should -BeIn $automaticServices.DisplayName
