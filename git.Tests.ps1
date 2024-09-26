@@ -29,15 +29,42 @@ Describe -Tag 'global' 'Checking the following directory exists' {
     }
 }
 
-Describe -Tag 'global' "Important GitHub Repositories" {
-    Context "<_>" -ForEach 'vm-status-checks',
-        'tdm-demos',
-        'forkable-widget',
-        'vm-startup-scripts',
-        'TDM-AutoMasklet',
-        'InstallTdmClisOnWindows',
+Describe -Tag 'global' "Important global GitHub Repositories" {
+    Context "<_>" -ForEach 'Flyway-AutoPilot-Backup',
         'Flyway-AutoPilot-FastTrack',
-        'Flyway-AutoPilot-Backup' {
+        'forkable-widget',
+        'InstallTdmClisOnWindows',
+        'TDM-AutoMasklet',
+        'tdm-demos',
+        'vm-startup-scripts',
+        'vm-status-checks' {
+
+        It 'should be cloned to C:\git' {
+            $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
+            Test-Path -Path $repoPath | Should -BeTrue
+        }
+
+        It "should be the latest version" {
+            $remote = git -C C:\git\$_ remote get-url origin
+            $gist = $remote -like "https://gist.github.com/*"
+            if ($gist){
+                $gitHubRepo = ((($remote -Split ('/'))[3]) -Split ('\.'))[0]   
+            }
+            else {
+                $githubAccount = ($remote -Split ('/'))[3]       
+                $remoteRepoName = ((($remote -Split ('/'))[4]) -Split ('\.'))[0]
+                $gitHubRepo = "$githubAccount/$remoteRepoName"
+            }
+            $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository $gitHubRepo -Branch 'main' -Gist $gist #gets latest github commit hash
+            $currentCommitHash = (git -C "$gitDirectory\$_" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
+            $latestCommitHash | Should -BeExactly $currentCommitHash
+        }
+    }
+}
+
+Describe -Tag 'CustomerVM' "Important CustomerVM GitHub Repositories" {
+    Context "<_>" -ForEach
+        'data_masker_labs' {
             
         It 'should be cloned to C:\git' {
             $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
