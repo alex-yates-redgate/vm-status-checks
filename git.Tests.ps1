@@ -62,9 +62,9 @@ Describe -Tag 'global' "Important global GitHub Repositories" {
     }
 }
 
+
 Describe -Tag 'CustomerVM' "Important CustomerVM GitHub Repositories" {
-    Context "<_>" -ForEach
-        'data_masker_labs' {
+    Context "<_>" -ForEach 'data_masker_labs' {
             
         It 'should be cloned to C:\git' {
             $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
