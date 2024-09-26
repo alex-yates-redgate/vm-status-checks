@@ -30,7 +30,15 @@ Describe -Tag 'global' 'Checking the following directory exists' {
 }
 
 Describe -Tag 'global' "Important GitHub Repositories" {
-    Context "<_>" -ForEach 'vm-status-checks','tdm-demos','forkable-widget','vm-startup-scripts','TDM-AutoMasklet','InstallTdmClisOnWindows' {
+    Context "<_>" -ForEach 'vm-status-checks',
+        'tdm-demos',
+        'forkable-widget',
+        'vm-startup-scripts',
+        'TDM-AutoMasklet',
+        'InstallTdmClisOnWindows',
+        'Flyway-AutoPilot-FastTrack',
+        'Flyway-AutoPilot-Backup' {
+            
         It 'should be cloned to C:\git' {
             $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
             Test-Path -Path $repoPath | Should -BeTrue
