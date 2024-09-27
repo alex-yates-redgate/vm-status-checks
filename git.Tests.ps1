@@ -1,24 +1,53 @@
 BeforeAll {
     $gitDirectory = "C:\git"
 
-    function Get-LatestGitHubCommitHash {
+    function Get-LatestRemoteCommitHash {
         param (
-            [string]$GitHubRepository,
-            [string]$Branch,
-            [bool]$Gist = $false
+            [string]$remote
         )
-        if ($Gist){
-            $url = "https://api.github.com/gists/$GitHubRepository"
+
+        $gist = $remote -like "https://gist.github.com/*"
+        $github = $remote -like "https://github.com/*"
+        $ado = $remote -like "*:8080/tfs*"
+
+        if ($gist){
+            $repo = ((($remote -Split ('/'))[3]) -Split ('\.'))[0] 
+            $url = "https://api.github.com/gists/$repo"
             $response = Invoke-RestMethod -Uri $url
             $lastSha = $response.history.version[0] 
             return $lastSha
         }
-        else {
-            $url = "https://api.github.com/repos/$GitHubRepository/commits/$Branch"
-            $response = Invoke-RestMethod -Uri $url
+
+        if ($ado){
+            $remoteProjet = ($remote -Split "/_git/")[0]
+            $remoteDatabase = ($remote -Split "/_git/")[1]
+            $url = "$remoteProjet/_apis/git/repositories/$remoteDatabase/refs?filter=heads/&api-version=6.1-preview.1"
+            try {
+                $response = Invoke-RestMethod -Uri $url -Method Get -UseDefaultCredentials
+            }
+            catch {
+                Write-Error "Following API call failed: $url"
+                Write-Error "Error was:"
+                Write-Error $error[0]
+            }
+            return $response.value[0].objectId
+        }
+        
+        if ($github) {
+            $githubAccount = ($remote -Split ('/'))[3]       
+            $remoteRepoName = ((($remote -Split ('/'))[4]) -Split ('\.'))[0]
+            $url = "https://api.github.com/repos/$githubAccount/$remoteRepoName/commits/main"
+            try {
+                $response = Invoke-RestMethod -Uri $url
+            }
+            catch {
+                Write-Error "Following API call failed: $url"
+                Write-Error "Error was:"
+                Write-Error $error[0]
+            }
             return $response.sha
         }
-        Write-Error "Something went wrong in the Get-LatestGitHubCommitHash function. This line should never execute."
+        Write-Error "Remote repo appears to be neither a GitHub repo, a GitHub gist, or a local Azure DevOps repo. Don't know how to get the latest commit hash."
     }
 }
 
@@ -50,16 +79,7 @@ Describe "Important GitHub Repositories" {
 
         It -Tag $tag "$repo should be the latest version" {
             $remote = git -C C:\git\$repo remote get-url origin
-            $gist = $remote -like "https://gist.github.com/*"
-            if ($gist){
-                $gitHubRepo = ((($remote -Split ('/'))[3]) -Split ('\.'))[0]   
-            }
-            else {
-                $githubAccount = ($remote -Split ('/'))[3]       
-                $remoteRepoName = ((($remote -Split ('/'))[4]) -Split ('\.'))[0]
-                $gitHubRepo = "$githubAccount/$remoteRepoName"
-            }
-            $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository $gitHubRepo -Branch 'main' -Gist $gist #gets latest github commit hash
+            $latestCommitHash = Get-LatestRemoteCommitHash -remote $remote #gets latest github commit hash
             $currentCommitHash = (git -C "$gitDirectory\$repo" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
             $latestCommitHash | Should -BeExactly $currentCommitHash
         }
