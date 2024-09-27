@@ -29,21 +29,27 @@ Describe -Tag 'global' 'Checking the following directory exists' {
     }
 }
 
-Describe -Tag 'global' "Important global GitHub Repositories" {
-    Context "<_>" -ForEach 'forkable-widget',
-        'InstallTdmClisOnWindows',
-        'TDM-AutoMasklet',
-        'tdm-demos',
-        'vm-startup-scripts',
-        'vm-status-checks' {
-
-        It 'should be cloned to C:\git' {
-            $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
+Describe "Important GitHub Repositories" {
+    Context "<_>" -ForEach @(    
+        @{ Repo = "forkable-widget"; Tag = 'global' }
+        @{ Repo = "InstallTdmClisOnWindows"; Tag = 'global' }
+        @{ Repo = "TDM-AutoMasklet"; Tag = 'global' }
+        @{ Repo = "tdm-demos"; Tag = 'global' }
+        @{ Repo = "vm-startup-scripts"; Tag = 'global' }
+        @{ Repo = "vm-status-checks"; Tag = 'global' }
+        @{ Repo = "Flyway-AutoPilot-Backup-AzureDevOps"; Tag = 'SalesDemo' }
+        @{ Repo = "Flyway-AutoPilot-Backup-GitHub"; Tag = 'SalesDemo' }
+        @{ Repo = "Flyway-AutoPilot-FastTrack-AzureDevOps"; Tag = 'SalesDemo' }
+        @{ Repo = "Flyway-AutoPilot-FastTrack-GitHub"; Tag = 'SalesDemo' }
+        @{ Repo = "Flyway-AutoPilot-FastTrack"; Tag = 'CustomerVM' }
+    ) {
+        It -Tag $tag "$repo should be cloned to C:\git" {
+            $repoPath = Join-Path -Path $gitDirectory -ChildPath $repo
             Test-Path -Path $repoPath | Should -BeTrue
         }
 
-        It "should be the latest version" {
-            $remote = git -C C:\git\$_ remote get-url origin
+        It -Tag $tag "$repo should be the latest version" {
+            $remote = git -C C:\git\$repo remote get-url origin
             $gist = $remote -like "https://gist.github.com/*"
             if ($gist){
                 $gitHubRepo = ((($remote -Split ('/'))[3]) -Split ('\.'))[0]   
@@ -54,66 +60,26 @@ Describe -Tag 'global' "Important global GitHub Repositories" {
                 $gitHubRepo = "$githubAccount/$remoteRepoName"
             }
             $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository $gitHubRepo -Branch 'main' -Gist $gist #gets latest github commit hash
-            $currentCommitHash = (git -C "$gitDirectory\$_" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
+            $currentCommitHash = (git -C "$gitDirectory\$repo" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
             $latestCommitHash | Should -BeExactly $currentCommitHash
         }
     }
 }
 
-
-Describe -Tag 'CustomerVM' "Important CustomerVM GitHub Repositories" {
+Describe -Tag 'SalesDemo' "GitHub and ADO repos should be in sync" {
     Context "<_>" -ForEach 'Flyway-AutoPilot-Backup',
-        'Flyway-AutoPilot-FastTrack',
-        'data_masker_labs' {
-            
-        It 'should be cloned to C:\git' {
-            $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
-            Test-Path -Path $repoPath | Should -BeTrue
-        }
+        'Flyway-AutoPilot-FastTrack' {
+        
+        It "GitHub and Azure DevOps repos should be in sync" {
+            $gh_repo = Join-Path -Path $gitDirectory -ChildPath "$_-GitHub"
+            $ado_repo = Join-Path -Path $gitDirectory -ChildPath "$_-AzureDevOps"
 
-        It "should be the latest version" {
-            $remote = git -C C:\git\$_ remote get-url origin
-            $gist = $remote -like "https://gist.github.com/*"
-            if ($gist){
-                $gitHubRepo = ((($remote -Split ('/'))[3]) -Split ('\.'))[0]   
-            }
-            else {
-                $githubAccount = ($remote -Split ('/'))[3]       
-                $remoteRepoName = ((($remote -Split ('/'))[4]) -Split ('\.'))[0]
-                $gitHubRepo = "$githubAccount/$remoteRepoName"
-            }
-            $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository $gitHubRepo -Branch 'main' -Gist $gist #gets latest github commit hash
-            $currentCommitHash = (git -C "$gitDirectory\$_" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
-            $latestCommitHash | Should -BeExactly $currentCommitHash
-        }
-    }
-}
+            $gh_files = Get-ChildItem -Recurse -path $gh_repo
+            $ado_files = Get-ChildItem -Recurse -path $ado_repo
 
-Describe -Tag 'SalesDemo' "Important SalesDemoVM GitHub Repositories" {
-    Context "<_>" -ForEach 'Flyway-AutoPilot-Backup-AzureDevOps',
-        'Flyway-AutoPilot-Backup-GitHub',
-        'Flyway-AutoPilot-FastTrack-AzureDevOps',
-        'Flyway-AutoPilot-FastTrack-GitHub' {
-            
-        It 'should be cloned to C:\git' {
-            $repoPath = Join-Path -Path $gitDirectory -ChildPath $_
-            Test-Path -Path $repoPath | Should -BeTrue
-        }
+            $diff = Compare-Object -ReferenceObject $gh_files -DifferenceObject $ado_files -Property Name, Length
 
-        It "should be the latest version" {
-            $remote = git -C C:\git\$_ remote get-url origin
-            $gist = $remote -like "https://gist.github.com/*"
-            if ($gist){
-                $gitHubRepo = ((($remote -Split ('/'))[3]) -Split ('\.'))[0]   
-            }
-            else {
-                $githubAccount = ($remote -Split ('/'))[3]       
-                $remoteRepoName = ((($remote -Split ('/'))[4]) -Split ('\.'))[0]
-                $gitHubRepo = "$githubAccount/$remoteRepoName"
-            }
-            $latestCommitHash = Get-LatestGitHubCommitHash -GitHubRepository $gitHubRepo -Branch 'main' -Gist $gist #gets latest github commit hash
-            $currentCommitHash = (git -C "$gitDirectory\$_" log -1).Split() | Where-Object { $_.Length -eq 40 } #gets local commit hash
-            $latestCommitHash | Should -BeExactly $currentCommitHash
+            $diff   | Should -BeNullOrEmpty
         }
     }
 }
