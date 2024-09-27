@@ -90,7 +90,7 @@ Describe -Tag 'CustomerVM' "Important CustomerVM GitHub Repositories" {
 }
 
 Describe -Tag 'SalesDemo' "Important SalesDemoVM GitHub Repositories" {
-    Context "<_>" -ForEach 'Flyway-AutoPilot-Backup-AzureDevOps'
+    Context "<_>" -ForEach 'Flyway-AutoPilot-Backup-AzureDevOps',
         'Flyway-AutoPilot-Backup-GitHub',
         'Flyway-AutoPilot-FastTrack-AzureDevOps',
         'Flyway-AutoPilot-FastTrack-GitHub' {
