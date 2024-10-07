@@ -19,7 +19,7 @@ Describe -Tag 'global' 'The following tools should be accessible via %PATH% from
         'flyway', 'flyway-dev', 'rgcompare.cli', 
         'sqlcompare', 'sqldatacompare', 'sqldatagenerator', 
         'rgclone', 'subsetter', 'anonymize', 
-        'datagenerator', 'DataMaskerCmdLine') {
+        'datagenerator', 'DataMaskerCmdLine', 'git') {
         
         Test-CommandRunsSuccessfully -command $_ | Should -BeTrue}
 }
