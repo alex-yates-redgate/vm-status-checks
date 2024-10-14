@@ -72,7 +72,7 @@ Describe "Important GitHub Repositories" {
         @{ Repo = "Flyway-AutoPilot-FastTrack-GitHub"; Tag = 'SalesDemo' }
         @{ Repo = "Flyway-AutoPilot-FastTrack"; Tag = 'CustomerVM' }
         @{ Repo = "Flyway-Templates-GitHub"; Tag = 'SalesDemo' }
-        @{ Repo = "Flyway-Tempaltes-AzureDevOps"; Tag = 'SalesDemo' }
+        @{ Repo = "Flyway-Templates-AzureDevOps"; Tag = 'SalesDemo' }
     ) {
         It -Tag $tag "$repo should be cloned to C:\git" {
             $repoPath = Join-Path -Path $gitDirectory -ChildPath $repo
