@@ -10,15 +10,17 @@ BeforeAll {
         }
     
         # Remove duplicates
-        $uniqueVersions = $versions | Select-Object -Unique
+        $uniqueVersions = @()
+        $uniqueVersions += $versions | Select-Object -Unique
     
         # Sort versions, based on [System.Version]. More info: https://learn.microsoft.com/en-us/dotnet/api/system.version.parse?view=net-8.0
-        $sortedVersions = $uniqueVersions | Sort-Object {
+        $sortedVersions = @()
+        $sortedVersions += $uniqueVersions | Sort-Object {
             [System.Version]::Parse($_)
         } -Descending
     
         # Return the biggest version
-        return $sortedVersions[0]
+        return $sortedVersions[0].ToString()
     }
 }
 
@@ -46,17 +48,24 @@ Describe -Tag 'global' 'Checking the following tools are up to date' {
         $upToDate | Should -BeTrue
     }
 
-    It 'anonymize' {
-        $anonymizeVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/AnonymizeWin64/").Content
-        $latestsAnonymize = Find-LatestVersion $anonymizeVersionsXml
-        $installedAnonymize = anonymize --version
-        $installedAnonymize | Should -BeLike  "*$latestsAnonymize*"
+    It 'rganonymize' {
+        $rganonymizeVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/AnonymizeWin64/").Content
+        $latestRganonymize = Find-LatestVersion $rganonymizeVersionsXml
+        $installedRganonymize = rganonymize --version
+        $installedRganonymize | Should -BeLike  "*$latestRganonymize*"
     }
 
-    It 'subsetter' {
-        $subsetterVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/SubsetterWin64/").Content
-        $latestsSubsetter = Find-LatestVersion $subsetterVersionsXml
-        $installedSubsetter = subsetter --version
-        $installedSubsetter | Should -BeLike  "*$latestsSubsetter*"
+    It 'rgsubset' {
+        $rgsubsetVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/SubsetterWin64/").Content
+        $latestRgsubset = Find-LatestVersion $rgsubsetVersionsXml
+        $installedRgsubset = rgsubset --version
+        $installedRgsubset | Should -BeLike  "*$latestRgsubset*"
+    }
+
+    It 'rggenerate' {
+        $rggenerateVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/RGGenerateWin64/").Content
+        $latestRggenerate = Find-LatestVersion $rggenerateVersionsXml
+        $installedRggenerate = (rggenerate --version | Out-String).Trim() # v0.1.0.2905 of rggenerate adds an empty line after version number, which results in the command returning an array if we don't -Out-String and Trim().
+        $installedRggenerate | Should -BeLike  "*$latestRggenerate*"
     }
 }
