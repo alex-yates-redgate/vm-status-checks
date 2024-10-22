@@ -16,10 +16,18 @@ BeforeAll {
 
 Describe -Tag 'global' 'The following tools should be accessible via %PATH% from the command line' {
     It "<_> is in %PATH%" -ForEach (
-        'flyway', 'flyway-dev', 'rgcompare.cli', 
-        'sqlcompare', 'sqldatacompare', 'sqldatagenerator', 
-        'rgclone', 'subsetter', 'anonymize', 
-        'datagenerator', 'DataMaskerCmdLine', 'git') {
-        
-        Test-CommandRunsSuccessfully -command $_ | Should -BeTrue}
+        'DataMaskerCmdLine',
+        'flyway', 
+        'flyway-dev', 
+        'git',
+        'rganonymize', 
+        'rgclone', 
+        'rgcompare.cli', 
+        'rggenerate',
+        'rgsubset', 
+        'sqlcompare', 
+        'sqldatacompare', 
+        'sqldatagenerator'
+    ) {
+    Test-CommandRunsSuccessfully -command $_ | Should -BeTrue}
 }
