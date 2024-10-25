@@ -27,7 +27,7 @@ BeforeAll {
 
 Describe -Tag 'global' 'Checking the following tools are up to date' {
     It 'Flyway' {
-        $flywayVersion = flyway version
+        $flywayVersion = (flyway version | Out-String).Trim()
         If (($flywayVersion -like "*WARNING: This version of Flyway is out of date.*") -or ($flywayVersion -like "*A more recent version of Flyway is available.*")){
             $upToDate = $false
         }
@@ -38,7 +38,7 @@ Describe -Tag 'global' 'Checking the following tools are up to date' {
     }
 
     It 'rgclone CLI' {
-        $rgcloneVersion = rgclone version
+        $rgcloneVersion = (rgclone version | Out-String).Trim()
         If ($rgcloneVersion -like "*WARNING - Your current version * of the rgclone CLI is outdated.*"){
             $upToDate = $false
         }
@@ -51,21 +51,21 @@ Describe -Tag 'global' 'Checking the following tools are up to date' {
     It 'rganonymize' {
         $rganonymizeVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/AnonymizeWin64/").Content
         $latestRganonymize = Find-LatestVersion $rganonymizeVersionsXml
-        $installedRganonymize = rganonymize --version
+        $installedRganonymize = (rganonymize --version | Out-String).Trim()
         $installedRganonymize | Should -BeLike  "*$latestRganonymize*"
     }
 
     It 'rgsubset' {
         $rgsubsetVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/SubsetterWin64/").Content
         $latestRgsubset = Find-LatestVersion $rgsubsetVersionsXml
-        $installedRgsubset = rgsubset --version
+        $installedRgsubset = (rgsubset --version | Out-String).Trim()
         $installedRgsubset | Should -BeLike  "*$latestRgsubset*"
     }
 
     It 'rggenerate' {
         $rggenerateVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/RGGenerateWin64/").Content
         $latestRggenerate = Find-LatestVersion $rggenerateVersionsXml
-        $installedRggenerate = (rggenerate --version | Out-String).Trim() # v0.1.0.2905 of rggenerate adds an empty line after version number, which results in the command returning an array if we don't -Out-String and Trim().
+        $installedRggenerate = (rggenerate --version | Out-String).Trim()
         $installedRggenerate | Should -BeLike  "*$latestRggenerate*"
     }
 }
