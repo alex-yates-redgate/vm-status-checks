@@ -53,6 +53,14 @@ Describe -Tag 'global' 'Testing permit setup' {
     }
 }
 Describe -Tag 'global' 'Testing permit status' {
+    It 'Permit should not have expired' {
+        $unixExpiryDate = $permitData.exp
+        # Convert to DateTime by adding seconds to the Unix epoch start date
+        $epoch = [datetime]"1970-01-01T00:00:00Z"
+        $expiryDate = $epoch.AddSeconds($unixExpiryDate)
+        $daysRemaining = ($expiryDate - (Get-Date)).Days
+        $daysRemaining | Should -BeGreaterThan 0
+    }
     It 'Permit should be valid for at least 90 days' {
         $unixExpiryDate = $permitData.exp
         # Convert to DateTime by adding seconds to the Unix epoch start date
