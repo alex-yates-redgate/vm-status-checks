@@ -27,7 +27,6 @@ Describe -Tag 'CustomerVM' "Databases that SHOULD exist, on CustomerVM" {
         'Eastwind' ,
         'Eastwind_Dev' ,
         'Eastwind_Test' ,
-        'Eastwind_QA' ,
         'Eastwind_Shadow' ,
         'Eastwind_Build' ,
         'Tundra_Check_Prod' ,
