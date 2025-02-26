@@ -60,19 +60,19 @@ Describe -Tag 'global' 'Checking the following directory exists' {
 
 Describe "Important GitHub Repositories" {
     Context "<_>" -ForEach @(    
-        @{ Repo = "forkable-widget"; Tag = 'global' }
-        @{ Repo = "InstallTdmClisOnWindows"; Tag = 'global' }
-        @{ Repo = "TDM-AutoMasklet"; Tag = 'global' }
-        @{ Repo = "tdm-demos"; Tag = 'global' }
-        @{ Repo = "vm-startup-scripts"; Tag = 'global' }
-        @{ Repo = "vm-status-checks"; Tag = 'global' }
-        #@{ Repo = "Flyway-AutoPilot-Backup-AzureDevOps"; Tag = 'SalesDemo' } # ADO check latest test is currently broken
-        @{ Repo = "Flyway-AutoPilot-Backup-GitHub"; Tag = 'SalesDemo' }
-        #@{ Repo = "Flyway-AutoPilot-FastTrack-AzureDevOps"; Tag = 'SalesDemo' } # ADO check latest test is currently broken
-        @{ Repo = "Flyway-AutoPilot-FastTrack-GitHub"; Tag = 'SalesDemo' }
-        @{ Repo = "Flyway-AutoPilot-FastTrack"; Tag = 'CustomerVM' }
-        @{ Repo = "Flyway-Templates-GitHub"; Tag = 'SalesDemo' }
-        #@{ Repo = "Flyway-Templates-AzureDevOps"; Tag = 'SalesDemo' } # ADO check latest test is currently broken
+        @{ Repo = "Demos\forkable-widget"; Tag = 'global' }
+        @{ Repo = "Admin\InstallTdmClisOnWindows"; Tag = 'global' }
+        @{ Repo = "Demos\TDM-AutoMasklet"; Tag = 'global' }
+        @{ Repo = "Demos\tdm-demos"; Tag = 'global' }
+        @{ Repo = "Admin\vm-startup-scripts"; Tag = 'global' }
+        @{ Repo = "Admin\vm-status-checks"; Tag = 'global' }
+        #@{ Repo = "Demos\Flyway-AutoPilot-Backup-AzureDevOps"; Tag = 'SalesDemo' } # ADO check latest test is currently broken
+        @{ Repo = "Demos\Flyway-AutoPilot-Backup-GitHub"; Tag = 'SalesDemo' }
+        #@{ Repo = "Demos\Flyway-AutoPilot-FastTrack-AzureDevOps"; Tag = 'SalesDemo' } # ADO check latest test is currently broken
+        @{ Repo = "Demos\Flyway-AutoPilot-FastTrack-GitHub"; Tag = 'SalesDemo' }
+        @{ Repo = "Demos\Flyway-AutoPilot-FastTrack"; Tag = 'CustomerVM' }
+        @{ Repo = "Demos\Flyway-Templates-GitHub"; Tag = 'SalesDemo' }
+        #@{ Repo = "Demos\Flyway-Templates-AzureDevOps"; Tag = 'SalesDemo' } # ADO check latest test is currently broken
     ) {
         It -Tag $tag "$repo should be cloned to C:\git" {
             $repoPath = Join-Path -Path $gitDirectory -ChildPath $repo
