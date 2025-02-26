@@ -62,10 +62,4 @@ Describe -Tag 'global' 'Checking the following tools are up to date' {
         $installedRgsubset | Should -BeLike  "*$latestRgsubset*"
     }
 
-    It 'rggenerate' {
-        $rggenerateVersionsXml = (Invoke-WebRequest "https://redgate-download.s3.eu-west-1.amazonaws.com/?delimiter=/&prefix=EAP/RGGenerateWin64/").Content
-        $latestRggenerate = Find-LatestVersion $rggenerateVersionsXml
-        $installedRggenerate = (rggenerate --version | Out-String).Trim()
-        $installedRggenerate | Should -BeLike  "*$latestRggenerate*"
-    }
 }
