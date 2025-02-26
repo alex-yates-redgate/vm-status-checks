@@ -22,7 +22,6 @@ Describe -Tag 'global' 'The following tools should be accessible via %PATH% from
         'git',
         'rganonymize', 
         'rgclone', 
-        'rgcompare.cli', 
         'rggenerate',
         'rgsubset', 
         'sqlcompare', 
