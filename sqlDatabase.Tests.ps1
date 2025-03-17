@@ -84,7 +84,6 @@ Describe -Tag 'SalesDemo' "Databases that SHOULD exist, on SalesDemo" {
         'Northwind_Prod3' ,
         'Northwind_Prod4' ,
         'DMDatabase' ,
-        'z_dev' ,
         'StackOverflow' ,
         'RedGate' ,
         'Redgate_SqlDataCatalog' ,
