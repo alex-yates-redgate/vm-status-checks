@@ -62,7 +62,7 @@ Describe "Important GitHub Repositories" {
     Context "<_>" -ForEach @(    
         @{ Repo = "Demos\forkable-widget"; Tag = 'global' }
         @{ Repo = "Admin\InstallTdmClisOnWindows"; Tag = 'global' }
-        @{ Repo = "Demos\TDM-AutoMasklet"; Tag = 'global' }
+        @{ Repo = "Demos\TDM-Autopilot"; Tag = 'global' }
         @{ Repo = "Demos\tdm-demos"; Tag = 'global' }
         @{ Repo = "Admin\vm-startup-scripts"; Tag = 'global' }
         @{ Repo = "Admin\vm-status-checks"; Tag = 'global' }
