@@ -8,7 +8,7 @@ BeforeAll {
 Describe -Tag 'Global' 'Validating Startup Type for various Windows Services, regardless of VM' {
     Context 'Service <expectedService> ' -ForEach @(
         @{ expectedService = 'SQL Clone Server' }
-        @{ expectedService = 'SQL Clone Agent 5.6.3.7653' }
+        @{ expectedService = 'SQL Clone Agent 5.6.6.7832' }
         @{ expectedService = 'Redgate SQL Data Catalog Service' }
         @{ expectedService = 'Azure DevOps Server Background Job Agent' }
 
